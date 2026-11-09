@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MiniMarket Online — Catálogo para Clientes (`minimarket-cliente`)
 
 Tienda en línea ligera para clientes con diseño de supermercado (estilo Súper Selectos / Walmart), adaptada a la paleta oficial (`#9caa17`, `#2f6b3f`, `#f67300`) y al logotipo oficial de **MiniMarket**.
@@ -44,3 +45,6 @@ Si deseas apuntar manualmente a otra URL de la API desde la consola del navegado
 localStorage.setItem("mm_api_url", "http://TU_IP_VPS:8000");
 location.reload();
 ```
+=======
+# minimarket-cliente
+>>>>>>> 7060f8ef0b94a14776a331ef0c09c6c0f94f1129
