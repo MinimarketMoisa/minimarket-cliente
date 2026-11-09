@@ -1695,11 +1695,8 @@
           <label class="mb-1 block text-[11px] font-semibold text-[#68706c]">Método de pago</label>
           <select id="cart-metodo-pago" class="mm-input w-full px-2.5 py-1.5 text-xs">
             <option value="CONTRA_ENTREGA" ${
-              estado.metodoPago === "CONTRA_ENTREGA" ? "selected" : ""
-            } ${exigeTarjeta ? "disabled" : ""}>Efectivo contra entrega</option>
-            <option value="TRANSFERENCIA" ${
-              estado.metodoPago === "TRANSFERENCIA" ? "selected" : ""
-            } ${exigeTarjeta ? "disabled" : ""}>Transferencia bancaria</option>
+              estado.metodoPago === "CONTRA_ENTREGA" || estado.metodoPago === "TRANSFERENCIA" ? "selected" : ""
+            } ${exigeTarjeta ? "disabled" : ""}>Contra entrega</option>
             <option value="TARJETA" ${
               estado.metodoPago === "TARJETA" ? "selected" : ""
             }>Tarjeta de crédito / débito (Wompi)</option>
@@ -2476,9 +2473,9 @@
         return;
       }
 
-      // Rechazo bancario simulado (fondos insuficientes, bloqueo, tarjeta vencida...)
+      // Rechazo bancario
       mostrarAlertaTarjeta(
-        (r && r.mensaje) || "La transacción fue declinada. Intenta con otra tarjeta.",
+        "Datos de tarjeta no válidos o transacción declinada. Por favor verifica los datos e intenta con otra tarjeta.",
         true
       );
       const cvvEl = document.getElementById("card-cvv");
@@ -2496,7 +2493,7 @@
       mostrarAlertaTarjeta(
         err && err.esErrorRed
           ? "Problemas de conexión con el servidor. Antes de intentarlo de nuevo, revisa «Mis pedidos» para confirmar si el pago se registró."
-          : (err && err.message) || "No se pudo procesar el pago. Inténtalo nuevamente.",
+          : "Datos de tarjeta no válidos. Por favor verifica los datos ingresados e intenta con una tarjeta válida.",
         true
       );
     } finally {
