@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Informe Visual y Técnico · minimarket-cliente</title>
+  <style>
+    :root {
+      --ink: #172b25;
+      --muted: #6b7d76;
+      --line: #e2eae6;
+      --canvas: #f4f8f5;
+      --green: #9caa17;
+      --green-dark: #707d0c;
+      --green-soft: #f3f5df;
+      --orange: #f67300;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 20px;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+    }
+    .toolbar {
+      max-width: 960px;
+      margin: 0 auto 14px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn-print {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--orange);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(24, 58, 43, 0.08);
+    }
+    .cover {
+      background: linear-gradient(135deg, var(--ink) 0%, #223e35 60%, var(--green-dark) 100%);
+      color: #fff;
+      padding: 30px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .cover-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .cover h1 { margin: 0; font-size: 24px; line-height: 1.2; }
+    .cover p { margin: 8px 0 0; font-size: 13px; color: rgba(255,255,255,0.88); }
+    .logo-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 16px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-box img { width: 170px; height: auto; object-fit: contain; }
+    .content { padding: 28px 36px 36px; }
+    h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--green-dark);
+      border-bottom: 2px solid var(--green-soft);
+      padding-bottom: 6px;
+      margin: 24px 0 14px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .kpi {
+      background: var(--canvas);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .kpi .num { font-size: 18px; font-weight: 800; color: var(--ink); }
+    .kpi .lbl { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .swatch {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 11px;
+      text-align: center;
+    }
+    .swatch-bar { height: 28px; }
+    .swatch-txt { padding: 6px; font-family: monospace; font-weight: 700; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 11px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--canvas);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+    }
+    code {
+      background: var(--canvas);
+      padding: 1px 5px;
+      border-radius: 5px;
+      font-size: 11px;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .toolbar { display: none; }
+      .page { border: none; box-shadow: none; max-width: 100%; }
+      .cover, .kpi, th, .swatch-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="btn-print" onclick="window.print()">Guardar / Imprimir como PDF</button>
+  </div>
+  <div class="page">
+    <header class="cover">
+      <div>
+        <span class="cover-badge">HTML5 · Tailwind · FastAPI · Estética Django</span>
+        <h1>Informe Visual y Técnico — minimarket-cliente</h1>
+        <p>Tienda web para clientes conectada a los 100 productos, 9 categorías y endpoints de minimarket-api con la paleta visual unificada de minimarket-web.</p>
+      </div>
+      <div class="logo-box">
+        <img src="img/logo-minimarket.png" alt="MiniMarket">
+      </div>
+    </header>
+    <div class="content">
+      <h2>1. Resumen de Integración con FastAPI</h2>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="num">100 Productos</div>
+          <div class="lbl">Catálogo e imágenes reales de minimarket-api (poblar_100_productos.py)</div>
+        </div>
+        <div class="kpi">
+          <div class="num">9 Categorías</div>
+          <div class="lbl">Abarrotes, Bebidas, Lácteos, Snacks, Carnes, Panadería, Frutas, Personal y Hogar</div>
+        </div>
+        <div class="kpi">
+          <div class="num">5 Sucursales</div>
+          <div class="lbl">Minimarket San Miguel 1 a 5 + cobertura en 4 municipios</div>
+        </div>
+        <div class="kpi">
+          <div class="num">Estética Django</div>
+          <div class="lbl">Tokens #172b25, #f4f8f5, #9caa17, #707d0c y #f67300 unificados</div>
+        </div>
+      </div>
+
+      <h2>2. Paleta Visual Unificada (minimarket-web + minimarket-cliente)</h2>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-bar" style="background:#172b25"></div><div class="swatch-txt">#172b25 (ink)</div></div>
+        <div class="swatch"><div class="swatch-bar" style="background:#f4f8f5"></div><div class="swatch-txt">#f4f8f5 (canvas)</div></div>
+        <div class="swatch"><div class="swatch-bar" style="background:#9caa17"></div><div class="swatch-txt">#9caa17 (green)</div></div>
+        <div class="swatch"><div class="swatch-bar" style="background:#707d0c"></div><div class="swatch-txt">#707d0c (dark)</div></div>
+        <div class="swatch"><div class="swatch-bar" style="background:#f67300"></div><div class="swatch-txt">#f67300 (orange)</div></div>
+      </div>
+
+      <h2>3. Endpoints FastAPI Integrados</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Módulo</th>
+            <th>Endpoints Consumidos</th>
+            <th>Archivo Frontend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Catálogo e Inventario</strong></td>
+            <td><code>GET /categorias</code>, <code>GET /productos?skip=0&amp;limit=200</code>, <code>GET /productos/{id}/disponibilidad</code>, <code>GET /sucursales</code>, <code>GET /municipios</code></td>
+            <td><code>index.html</code>, <code>js/app.js</code>, <code>js/datos_fastapi.js</code></td>
+          </tr>
+          <tr>
+            <td><strong>Autenticación</strong></td>
+            <td><code>POST /auth/login</code>, <code>GET /auth/me</code>, <code>POST /auth/registro</code>, <code>POST /auth/olvide-contrasena</code>, <code>POST /auth/reenviar-verificacion</code></td>
+            <td><code>login.html</code>, <code>registro.html</code>, <code>js/app.js</code></td>
+          </tr>
+          <tr>
+            <td><strong>Direcciones y Pedidos</strong></td>
+            <td><code>GET /direcciones</code>, <code>POST /direcciones</code>, <code>POST /pedidos</code> (<code>RETIRO</code> / <code>DOMICILIO</code>), <code>GET /pedidos/mis-pedidos</code>, <code>POST /pedidos/{id}/enviar-factura</code></td>
+            <td><code>index.html</code>, <code>js/app.js</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

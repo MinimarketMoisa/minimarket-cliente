@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>MiniMarket Online · Tu Súper en Línea</title>
+  <link rel="icon" type="image/png" href="img/logo-minimarket.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            mm: {
+              ink: '#1f2421',
+              muted: '#68706c',
+              line: '#e8e2dc',
+              canvas: '#faf8f5',
+              green: '#f67300',
+              'green-dark': '#d95b00',
+              'green-soft': '#fff3e6',
+              orange: '#f67300',
+              'orange-dark': '#d95b00',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261109_clean">
+</head>
+<body class="flex min-h-screen flex-col bg-mm-canvas text-mm-ink antialiased">
+
+  <!--  ENCABEZADO PRINCIPAL  -->
+  <header class="mm-header-glass sticky top-0 z-30">
+    <div class="mx-auto max-w-[1280px] px-4 py-3.5">
+      <!-- Fila 1: Logo + Sucursal + Buscador centrado + Cuenta + Carrito -->
+      <div class="flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap lg:gap-6">
+
+        <!-- Bloque izquierdo: Logo -->
+        <div class="flex shrink-0 items-center gap-4 sm:gap-5">
+          <a href="index.html" class="flex shrink-0 items-center">
+            <img src="img/logo-minimarket.png"
+                 alt="MiniMarket · Ahorra tiempo y dinero"
+                 class="h-10 w-auto max-w-[184px] object-contain sm:h-11">
+          </a>
+        </div>
+
+        <!-- Buscador central con texto simple -->
+        <form id="header-search-form"
+              class="mm-input order-3 flex w-full flex-1 items-center !rounded-full pl-4 pr-1.5 py-1 lg:order-none lg:max-w-xl">
+          <input id="header-search-input"
+                 type="search"
+                 maxlength="100"
+                 placeholder="Buscar productos..."
+                 class="w-full bg-transparent text-xs text-mm-ink placeholder:text-mm-muted focus:outline-none sm:text-sm">
+          <button type="submit"
+                  aria-label="Buscar"
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-mm-orange text-white transition hover:bg-mm-orange-dark">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Bloque derecho: Mis pedidos (si inició sesión) + Cuenta + Carrito -->
+        <div class="flex shrink-0 items-center gap-4 text-xs sm:gap-5">
+          <button id="header-orders-btn"
+                  type="button"
+                  class="hidden items-center gap-2 pr-4 text-mm-ink transition hover:text-mm-orange sm:flex sm:border-r sm:border-mm-line">
+            <svg class="h-5 w-5 text-mm-orange" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            <span class="font-semibold leading-tight">Mis<br>pedidos</span>
+          </button>
+
+          <div class="flex items-center gap-2 pr-4 sm:border-r sm:border-mm-line">
+            <a id="header-auth-link" href="login.html" class="flex items-center gap-2.5 hover:opacity-85">
+              <svg id="header-user-icon" class="h-5 w-5 text-mm-orange" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              <div id="header-auth-label" class="hidden sm:block">
+                <span class="block text-[11px] text-mm-muted leading-tight">Hola,</span>
+                <span class="font-bold text-mm-ink">Inicia sesión ▾</span>
+              </div>
+            </a>
+            <button id="header-logout-btn"
+                    type="button"
+                    title="Cerrar sesión"
+                    class="hidden rounded-md border border-[#f2d5d2] bg-[#fff7f6] px-2 py-0.5 text-[10px] font-bold text-[#b93838] hover:bg-[#b93838] hover:text-white">
+              Salir
+            </button>
+          </div>
+
+          <button id="header-cart-btn"
+                  type="button"
+                  class="relative flex items-center gap-2.5 rounded-xl border border-[#ffd8b5] bg-mm-green-soft px-3.5 py-2 font-bold text-mm-ink transition hover:bg-[#ffe6cc]">
+            <div class="relative">
+              <svg class="h-5 w-5 text-mm-orange" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6h12m-9 0a1 1 0 11-2 0 1 1 0 012 0zm8 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+              </svg>
+              <span id="header-cart-badge"
+                    class="hidden absolute -top-2 -right-2 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-mm-orange px-1 text-[10px] font-extrabold text-white">
+                0
+              </span>
+            </div>
+            <span id="header-cart-total" class="text-xs font-extrabold sm:text-sm">$0.00</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Fila 2: Botones de Categorías desde FastAPI (/categorias) -->
+      <div id="top-category-tiles"
+           class="no-scrollbar mt-4 flex items-center gap-3 overflow-x-auto border-t border-mm-line/80 pt-3.5 pb-1.5">
+      </div>
+    </div>
+
+    <!-- Mega-Menú desplegable "Todas las Categorías" -->
+    <div id="mega-menu-categorias"
+         class="hidden absolute left-0 right-0 top-full z-40 border-b border-mm-line bg-white shadow-xl">
+      <div class="mx-auto grid max-w-[1280px] min-h-[380px] grid-cols-1 md:grid-cols-[280px_1fr]">
+        <div class="border-r border-mm-line py-4">
+          <div class="mb-2 flex items-center justify-between px-5">
+            <h3 class="text-sm font-extrabold uppercase tracking-wider text-mm-muted">Departamentos</h3>
+            <button id="mega-menu-close"
+                    type="button"
+                    aria-label="Cerrar menú"
+                    class="text-base font-bold text-mm-muted hover:text-mm-ink">✕</button>
+          </div>
+          <ul id="mega-menu-lista" class="divide-y divide-mm-line/60"></ul>
+        </div>
+
+        <div class="p-6">
+          <div class="mb-5 rounded-xl border-l-4 border-l-mm-orange bg-mm-ink px-5 py-3 text-base font-extrabold text-white"
+               id="mega-menu-titulo-cat">
+            Departamentos MiniMarket
+          </div>
+          <div id="mega-menu-subgrid"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!--  CONTENIDO PRINCIPAL  -->
+  <main class="flex-1">
+
+    <!-- ─── VISTA 1: PORTADA DE SUPERMERCADO ─── -->
+    <div id="vista-inicio">
+
+      <!-- Categorías destacadas -->
+      <section class="mx-auto mt-8 max-w-[1220px] px-4">
+        <div class="mb-5 text-center">
+          <h2 class="text-xl font-extrabold tracking-tight text-mm-ink">Categorías destacadas</h2>
+        </div>
+        <div id="home-featured-categories"
+             class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        </div>
+      </section>
+
+      <!-- Productos destacados del catálogo -->
+      <section class="mx-auto mt-10 mb-14 max-w-[1220px] px-4">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-xl font-extrabold tracking-tight text-mm-ink">Esenciales para tu despensa</h2>
+          <button id="btn-ver-todo-catalogo"
+                  type="button"
+                  class="mm-btn-secondary px-4 py-2 text-xs">
+            Ver catálogo completo →
+          </button>
+        </div>
+        <div id="home-all-products"
+             class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        </div>
+      </section>
+    </div>
+
+    <!-- ─── VISTA 2: FILTROS Y RESULTADOS POR CATEGORÍA (PAGINADO DE 25 EN 25) ─── -->
+    <div id="vista-catalogo" class="hidden mx-auto max-w-[1260px] px-4 py-6">
+      <div class="grid gap-6 lg:grid-cols-[255px_1fr]">
+
+        <!-- Barra lateral izquierda de filtros plegables (Rango de precios + Categorías) -->
+        <aside class="space-y-4">
+          <!-- Rango de precios (Checkboxes rápidos + Mín / Máx dinero) -->
+          <div class="mm-panel p-4">
+            <div class="flex items-center justify-between border-b border-mm-line pb-2.5">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-mm-ink">Rango de precios</span>
+              <button type="button" data-collapse-btn="box-precios" class="flex h-5 w-5 items-center justify-center rounded bg-mm-canvas text-xs font-bold text-mm-muted hover:text-mm-ink">−</button>
+            </div>
+            <div id="box-precios" class="mt-3 space-y-2.5">
+              <label class="flex cursor-pointer items-center gap-2.5 text-xs text-mm-ink hover:text-mm-orange-dark">
+                <input type="checkbox" data-price-bucket="u2" class="super-checkbox">
+                <span>Menos de $2.00</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-2.5 text-xs text-mm-ink hover:text-mm-orange-dark">
+                <input type="checkbox" data-price-bucket="2_4" class="super-checkbox">
+                <span>Entre $2.00 y $4.00</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-2.5 text-xs text-mm-ink hover:text-mm-orange-dark">
+                <input type="checkbox" data-price-bucket="o4" class="super-checkbox">
+                <span>Más de $4.00</span>
+              </label>
+
+              <div class="border-t border-mm-line pt-3">
+                <span class="mb-1.5 block text-[11px] font-semibold text-mm-muted">Monto exacto ($)</span>
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="input-min-price"
+                         type="number"
+                         min="0"
+                         step="0.01"
+                         placeholder="Mín $"
+                         class="mm-input w-full px-2.5 py-1.5 text-xs">
+                  <input id="input-max-price"
+                         type="number"
+                         min="0"
+                         step="0.01"
+                         placeholder="Máx $"
+                         class="mm-input w-full px-2.5 py-1.5 text-xs">
+                </div>
+                <p id="price-filter-error" class="hidden mt-1.5 text-[11px] font-semibold text-[#b93838]"></p>
+                <button id="btn-apply-minmax"
+                        type="button"
+                        class="mm-btn-primary mt-2.5 w-full py-1.5 text-xs">
+                  Aplicar monto
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categorías desde FastAPI -->
+          <div class="mm-panel p-4">
+            <div class="flex items-center justify-between border-b border-mm-line pb-2.5">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-mm-ink">Categorías</span>
+              <button type="button" data-collapse-btn="filter-categories-list" class="flex h-5 w-5 items-center justify-center rounded bg-mm-canvas text-xs font-bold text-mm-muted hover:text-mm-ink">−</button>
+            </div>
+            <div id="filter-categories-list" class="mt-3 space-y-2.5"></div>
+          </div>
+
+          <button id="btn-reset-filters"
+                  type="button"
+                  class="mm-btn-secondary w-full py-2 text-xs">
+            Limpiar filtros
+          </button>
+        </aside>
+
+        <!-- Área derecha de resultados -->
+        <section>
+          <!-- Encabezado con acento naranja MiniMarket -->
+          <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#ffd8b5] border-l-4 border-l-mm-orange bg-gradient-to-r from-[#fff6ec] to-white px-5 py-3.5 text-mm-ink shadow-sm">
+            <div>
+              <h1 id="catalog-banner-title" class="text-base font-extrabold tracking-tight text-mm-ink sm:text-lg">
+                Catálogo de productos
+              </h1>
+              <p id="catalog-results-count" class="text-xs font-medium text-mm-muted">Cargando productos...</p>
+            </div>
+            <button id="btn-volver-inicio"
+                    type="button"
+                    class="rounded-lg border border-[#ffd8b5] bg-white px-3.5 py-1.5 text-xs font-bold text-mm-orange-dark transition hover:bg-mm-orange hover:text-white">
+              ← Portada
+            </button>
+          </div>
+
+          <!-- Selector Ordenar por -->
+          <div class="my-4 flex items-center justify-end gap-2.5 text-xs">
+            <label for="catalog-sort-select" class="font-semibold text-mm-muted">Ordenar por:</label>
+            <select id="catalog-sort-select"
+                    class="mm-input min-w-[175px] px-3 py-1.5 text-xs font-semibold">
+              <option value="az">Nombre (A-Z)</option>
+              <option value="za">Nombre (Z-A)</option>
+              <option value="precio_asc">Menor a mayor precio</option>
+              <option value="precio_desc">Mayor a menor precio</option>
+            </select>
+          </div>
+
+          <!-- Grilla de 5 columnas (25 productos por página = 5 filas x 5 columnas) -->
+          <div id="catalog-results-grid"
+               class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          </div>
+
+          <!-- Controles de paginación (25 productos por página) -->
+          <div id="catalog-pagination"
+               class="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-mm-line pt-4">
+          </div>
+
+          <!-- Estado sin coincidencias -->
+          <div id="catalog-empty-state"
+               class="mm-panel hidden p-12 text-center">
+            <p class="text-sm font-bold text-mm-ink">No encontramos productos con los filtros seleccionados.</p>
+            <p class="mt-1 text-xs text-mm-muted">Prueba ajustando el rango de precios o seleccionando otro departamento.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!--  PANEL DE DETALLE DE PRODUCTO (Al hacer clic)  -->
+  <div id="product-detail-modal"
+       class="overlay-fade fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
+    <div class="mm-panel relative w-full max-w-2xl border-t-4 border-t-mm-orange p-6 shadow-2xl">
+      <button id="product-detail-close"
+              type="button"
+              aria-label="Cerrar detalle"
+              class="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-mm-canvas text-mm-muted hover:bg-mm-line hover:text-mm-ink">
+        ✕
+      </button>
+      <div id="product-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- MI CARRITO  -->
+  <div id="cart-overlay" class="overlay-fade fixed inset-0 z-40 bg-black/35"></div>
+  <aside id="cart-drawer"
+         aria-label="Mi carrito"
+         class="cart-drawer fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[400px] flex-col border-l border-mm-line bg-mm-canvas shadow-2xl">
+    <div class="flex items-center justify-between border-b border-mm-line bg-white px-5 py-4">
+      <div class="flex items-center gap-2 text-mm-ink">
+        <svg class="h-5 w-5 text-mm-orange" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6h12m-9 0a1 1 0 11-2 0 1 1 0 012 0zm8 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+        </svg>
+        <h2 class="text-base font-extrabold text-mm-ink">Mi carrito</h2>
+        <span id="cart-drawer-count" class="rounded-full bg-mm-green-soft px-2 py-0.5 text-xs font-bold text-mm-orange-dark">0 productos</span>
+      </div>
+      <button id="cart-close-btn"
+              type="button"
+              aria-label="Cerrar carrito"
+              class="text-lg font-bold text-mm-muted hover:text-mm-ink">✕</button>
+    </div>
+
+    <div id="cart-drawer-body" class="flex-1 overflow-y-auto py-4"></div>
+
+    <div class="border-t border-mm-line bg-white p-4">
+      <button id="cart-checkout-btn"
+              type="button"
+              class="mm-btn-primary w-full py-2.5 text-sm">
+        Confirmar pedido
+      </button>
+    </div>
+  </aside>
+
+  <!-- PIE -->
+  <footer class="mt-auto bg-mm-ink text-zinc-300">
+    <div class="border-b border-white/10 py-5">
+      <div class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-4 px-4 sm:justify-start">
+        <div class="rounded-xl bg-white px-3.5 py-1.5 shadow-sm">
+          <img src="img/logo-minimarket.png" alt="MiniMarket" class="h-8 w-auto object-contain">
+        </div>
+        <span class="hidden h-7 w-px bg-white/20 sm:inline-block"></span>
+        <span class="text-base font-semibold italic text-[#ffb26b] sm:text-lg">Tu Súper en San Miguel</span>
+      </div>
+    </div>
+
+    <!-- Contáctanos y Cobertura y pagos -->
+    <div class="py-8 text-xs text-zinc-300">
+      <div class="mx-auto grid max-w-[1200px] gap-8 px-4 sm:grid-cols-2">
+        <div>
+          <h3 class="mb-2 text-sm font-extrabold text-white">Contáctanos</h3>
+          <p class="mb-2 font-semibold text-white">Atención al cliente: 2600-0001</p>
+          <p class="leading-relaxed text-zinc-300">
+            MiniMarket San Miguel (Sucursales 1 a 5).<br>
+            Av. Roosevelt Norte, Bulevar Los Próceres y Ruta Militar.<br>
+            Correo: <a href="mailto:soporte@minimarket.com" class="text-zinc-200 underline hover:text-white">soporte@minimarket.com</a>
+          </p>
+          <p class="mt-4 text-[11px] text-zinc-400">© 2026 MiniMarket, S.A. de C.V. Todos los derechos reservados.</p>
+        </div>
+
+        <div>
+          <h3 class="mb-2 text-sm font-extrabold text-white">Cobertura y formas de pago</h3>
+          <p class="leading-relaxed text-zinc-300">
+            Entregas a domicilio en San Miguel, Quelepa, Moncagua y Chinameca o retiro sin costo en cualquiera de nuestras 5 sucursales.
+          </p>
+          <!-- Lista de métodos de pago en un solo color -->
+          <ul class="mt-3.5 space-y-2 text-xs font-medium text-zinc-200">
+            <li class="flex items-center gap-2">
+              <span class="h-1.5 w-1.5 rounded-full bg-mm-orange"></span>
+              <span>Contra entrega (Efectivo o POS)</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="h-1.5 w-1.5 rounded-full bg-mm-orange"></span>
+              <span>Transferencia bancaria</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="h-1.5 w-1.5 rounded-full bg-mm-orange"></span>
+              <span>Tarjeta de crédito o débito (Wompi)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/app.js?v=20261109_clean"></script>
+</body>
+</html>

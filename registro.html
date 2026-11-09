@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crear Cuenta · MiniMarket Online</title>
+  <link rel="icon" type="image/png" href="img/logo-minimarket.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            mm: {
+              ink: '#1f2421',
+              muted: '#68706c',
+              line: '#e8e2dc',
+              canvas: '#faf8f5',
+              green: '#f67300',
+              'green-dark': '#d95b00',
+              'green-soft': '#fff3e6',
+              orange: '#f67300',
+              'orange-dark': '#d95b00',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="css/styles.css?v=20261109_clean">
+</head>
+<body class="flex min-h-screen flex-col bg-mm-canvas text-mm-ink antialiased">
+
+  <!-- ================= ENCABEZADO PRINCIPAL ================= -->
+  <header class="mm-header-glass sticky top-0 z-30">
+    <div class="mx-auto max-w-[1280px] px-4 py-3.5">
+      <div class="flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap lg:gap-6">
+        <div class="flex shrink-0 items-center gap-4 sm:gap-5">
+          <a href="index.html" class="flex shrink-0 items-center">
+            <img src="img/logo-minimarket.png"
+                 alt="MiniMarket · Ahorra tiempo y dinero"
+                 class="h-10 w-auto max-w-[184px] object-contain sm:h-11">
+          </a>
+
+          <span class="hidden h-8 w-px bg-mm-line lg:inline-block"></span>
+
+          <div class="hidden shrink-0 items-center gap-2.5 text-xs lg:flex">
+            <span class="flex h-9 w-9 items-center justify-center rounded-xl border border-[#ffd8b5] bg-mm-green-soft text-mm-orange">
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1"/>
+              </svg>
+            </span>
+            <div>
+              <span class="block text-[10px] font-semibold uppercase tracking-wider text-mm-muted">Sucursal / Entrega</span>
+              <select id="header-sucursal-select"
+                      aria-label="Sucursal activa"
+                      class="max-w-[190px] cursor-pointer truncate bg-transparent text-xs font-bold text-mm-ink focus:outline-none">
+                <option>Minimarket San Miguel 1</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <form id="header-search-form"
+              class="mm-input order-3 flex w-full flex-1 items-center !rounded-full pl-4 pr-1.5 py-1 lg:order-none lg:max-w-xl">
+          <input id="header-search-input"
+                 type="search"
+                 maxlength="100"
+                 placeholder="Buscar productos..."
+                 class="w-full bg-transparent text-xs text-mm-ink placeholder:text-mm-muted focus:outline-none sm:text-sm">
+          <button type="submit"
+                  aria-label="Buscar"
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-mm-orange text-white transition hover:bg-mm-orange-dark">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z"/>
+            </svg>
+          </button>
+        </form>
+
+        <div class="flex shrink-0 items-center gap-4 text-xs sm:gap-5">
+          <div class="flex items-center gap-2 pr-4 sm:border-r sm:border-mm-line">
+            <a id="header-auth-link" href="login.html" class="flex items-center gap-2.5">
+              <span id="header-user-avatar"
+                    class="hidden h-8 w-8 items-center justify-center rounded-full border border-[#ffd8b5] bg-mm-green-soft text-xs font-extrabold text-mm-orange-dark sm:inline-flex">
+                C
+              </span>
+              <svg id="header-user-icon" class="h-5 w-5 text-mm-orange" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              <div id="header-auth-label" class="hidden sm:block">
+                <span class="block text-[11px] text-mm-muted leading-tight">Hola,</span>
+                <span class="font-bold text-mm-ink">Inicia sesión ▾</span>
+              </div>
+            </a>
+            <button id="header-logout-btn" type="button" class="hidden rounded-md border border-[#f2d5d2] bg-[#fff7f6] px-2 py-0.5 text-[10px] font-bold text-[#b93838]">Salir</button>
+          </div>
+
+          <button id="header-cart-btn"
+                  type="button"
+                  class="relative flex items-center gap-2.5 rounded-xl border border-[#ffd8b5] bg-mm-green-soft px-3.5 py-2 font-bold text-mm-ink transition hover:bg-[#ffe6cc]">
+            <div class="relative">
+              <svg class="h-5 w-5 text-mm-orange" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 6h12m-9 0a1 1 0 11-2 0 1 1 0 012 0zm8 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+              </svg>
+              <span id="header-cart-badge"
+                    class="hidden absolute -top-2 -right-2 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-mm-orange px-1 text-[10px] font-extrabold text-white">0</span>
+            </div>
+            <span id="header-cart-total" class="text-xs font-extrabold sm:text-sm">$0.00</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="top-category-tiles" class="no-scrollbar mt-3.5 flex items-center gap-2.5 overflow-x-auto pb-1"></div>
+    </div>
+  </header>
+
+  <!-- ================= CONTENIDO DE REGISTRO (ALINEADO CON RegistroIn DE FASTAPI) ================= -->
+  <main class="mx-auto grid flex-1 max-w-[1040px] items-center gap-8 px-4 py-10 lg:grid-cols-[1fr_460px]">
+
+    <!-- Columna izquierda informativa -->
+    <div class="hidden lg:block">
+      <div class="mm-panel p-7">
+        <img src="img/logo-minimarket.png" alt="MiniMarket" class="h-12 w-auto object-contain">
+        <h2 class="mt-4 text-2xl font-extrabold leading-tight text-mm-ink">
+          Crea tu cuenta en MiniMarket en segundos
+        </h2>
+        <p class="mt-2 text-xs leading-relaxed text-mm-muted">
+          Regístrate con tus datos básicos para realizar pedidos a domicilio en San Miguel, Quelepa, Moncagua y Chinameca o retirar sin costo en sucursal.
+        </p>
+
+        <div class="mt-5 grid grid-cols-3 gap-3">
+          <div class="overflow-hidden rounded-xl border border-mm-line bg-mm-canvas">
+            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&q=80" alt="Abarrotes" class="h-28 w-full object-cover">
+          </div>
+          <div class="overflow-hidden rounded-xl border border-mm-line bg-mm-canvas">
+            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&q=80" alt="Lácteos" class="h-28 w-full object-cover">
+          </div>
+          <div class="overflow-hidden rounded-xl border border-mm-line bg-mm-canvas">
+            <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&q=80" alt="Frutas y Verduras" class="h-28 w-full object-cover">
+          </div>
+        </div>
+
+        <div class="mt-5 rounded-xl border border-[#ffd8b5] bg-mm-green-soft p-4 text-xs text-mm-ink">
+          <span class="font-extrabold uppercase tracking-wider text-mm-orange-dark">Sucursales disponibles</span>
+          <ul class="mt-2 space-y-1.5 text-mm-muted">
+            <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-mm-orange">storefront</span> <strong class="text-mm-ink">Minimarket San Miguel 1</strong> — Av. Roosevelt Norte</li>
+            <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-mm-orange">storefront</span> <strong class="text-mm-ink">Minimarket San Miguel 2</strong> — Bulevar Los Próceres</li>
+            <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-mm-orange">storefront</span> <strong class="text-mm-ink">Minimarket San Miguel 3</strong> — Ruta Militar</li>
+            <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-mm-orange">storefront</span> <strong class="text-mm-ink">Minimarket San Miguel 4</strong> — Colonia Ciudad Jardín</li>
+            <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-mm-orange">storefront</span> <strong class="text-mm-ink">Minimarket San Miguel 5</strong> — Salida a La Unión</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: Formulario exacto para POST /auth/registro (nombre_completo, email, telefono, password) -->
+    <div class="mm-panel border-t-4 border-t-mm-orange p-7 sm:p-8">
+      <h1 class="text-2xl font-extrabold tracking-tight text-mm-ink">Crear cuenta</h1>
+      <p class="mt-1 mb-5 text-xs text-mm-muted">
+        Completa los datos de tu cuenta. Te enviaremos un enlace de confirmación a tu correo electrónico.
+      </p>
+
+      <div id="registro-alert" class="hidden"></div>
+
+      <form id="registro-form" class="space-y-4 text-xs" novalidate>
+        <div>
+          <label for="reg-nombre-completo" class="mb-1.5 block text-xs font-bold text-mm-ink">Nombre completo *</label>
+          <input id="reg-nombre-completo"
+                 type="text"
+                 required
+                 minlength="2"
+                 maxlength="150"
+                 autocomplete="name"
+                 placeholder="Ej. Ana Martínez"
+                 class="mm-input w-full px-3.5 py-2.5 text-sm">
+        </div>
+
+        <div>
+          <label for="reg-email" class="mb-1.5 block text-xs font-bold text-mm-ink">Correo electrónico *</label>
+          <input id="reg-email"
+                 type="email"
+                 required
+                 maxlength="254"
+                 autocomplete="email"
+                 placeholder="tu_correo@gmail.com"
+                 class="mm-input w-full px-3.5 py-2.5 text-sm">
+        </div>
+
+        <div>
+          <label for="reg-telefono" class="mb-1.5 block text-xs font-bold text-mm-ink">
+            Teléfono <span class="font-normal text-mm-muted">(opcional)</span>
+          </label>
+          <input id="reg-telefono"
+                 type="tel"
+                 maxlength="20"
+                 autocomplete="tel"
+                 placeholder="7777-0001"
+                 class="mm-input w-full px-3.5 py-2.5 text-sm">
+        </div>
+
+        <div>
+          <label for="reg-password" class="mb-1.5 block text-xs font-bold text-mm-ink">Contraseña (mínimo 8 caracteres) *</label>
+          <div class="relative">
+            <input id="reg-password"
+                   type="password"
+                   required
+                   minlength="8"
+                   maxlength="128"
+                   autocomplete="new-password"
+                   placeholder="Mínimo 8 caracteres"
+                   class="mm-input w-full px-3.5 py-2.5 pr-10 text-sm">
+            <button type="button"
+                    data-toggle-pwd="reg-password"
+                    aria-label="Mostrar u ocultar contraseña"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-mm-muted hover:text-mm-ink">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button id="registro-submit-btn"
+                type="submit"
+                class="mm-btn-primary mt-2 w-full py-2.5 text-sm">
+          Crear cuenta
+        </button>
+
+        <p class="border-t border-mm-line pt-4 text-center text-xs text-mm-muted">
+          ¿Ya tienes cuenta?
+          <a href="login.html" class="font-extrabold text-mm-orange-dark underline hover:text-mm-orange">
+            Inicia sesión
+          </a>
+        </p>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Drawer Carrito -->
+  <div id="cart-overlay" class="overlay-fade fixed inset-0 z-40 bg-black/35"></div>
+  <aside id="cart-drawer" class="cart-drawer fixed right-0 top-0 bottom-0 z-50 flex w-full max-w-[400px] flex-col border-l border-mm-line bg-mm-canvas shadow-2xl">
+    <div class="flex items-center justify-between border-b border-mm-line bg-white px-5 py-4">
+      <div class="flex items-center gap-2 text-mm-ink">
+        <h2 class="text-base font-extrabold">Mi carrito</h2>
+        <span id="cart-drawer-count" class="rounded-full bg-mm-green-soft px-2 py-0.5 text-xs font-bold text-mm-orange-dark">0 productos</span>
+      </div>
+      <button id="cart-close-btn" type="button" class="text-lg font-bold text-mm-muted hover:text-mm-ink">✕</button>
+    </div>
+    <div id="cart-drawer-body" class="flex-1 overflow-y-auto py-4"></div>
+    <div class="border-t border-mm-line bg-white p-4">
+      <button id="cart-checkout-btn" type="button" class="mm-btn-primary w-full py-2.5 text-sm">
+        Confirmar pedido
+      </button>
+    </div>
+  </aside>
+
+  <!-- Pie de página unificado -->
+  <footer class="mt-auto bg-mm-ink text-zinc-300">
+    <div class="border-b border-white/10 py-4">
+      <div class="mx-auto flex max-w-[1200px] items-center justify-center gap-4 px-4">
+        <div class="rounded-xl bg-white px-3 py-1 shadow-sm">
+          <img src="img/logo-minimarket.png" alt="MiniMarket" class="h-7 w-auto object-contain">
+        </div>
+        <span class="h-6 w-px bg-white/20"></span>
+        <span class="text-base font-semibold italic text-[#ffb26b]">Tu Súper en San Miguel</span>
+      </div>
+    </div>
+    <div class="py-4 text-center text-xs text-zinc-400">
+      © 2026 MiniMarket, S.A. de C.V. · Atención al cliente: 2600-0001
+    </div>
+  </footer>
+
+  <script src="js/app.js?v=20261109_clean"></script>
+</body>
+</html>
